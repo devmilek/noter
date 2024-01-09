@@ -22,7 +22,9 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "@mdxeditor/editor": "^2.2.1",
     "@tailwindcss/typography": "^0.5.10",
+    "jotai": "^2.6.1",
     "lucide-react": "^0.308.0"
   },
   "devDependencies": {
