@@ -8,4 +8,4 @@ export type WriteNote = (title: NoteInfo['title'], content: NoteContent) => Prom
 
 export type CreateNote = () => Promise<NoteInfo['title'] | false>
 
-export type DeleteNote = (title: NoteInfo['title']) => Promise<void>
+export type DeleteNote = (title: NoteInfo['title']) => Promise<boolean>
