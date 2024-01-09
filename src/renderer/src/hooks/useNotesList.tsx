@@ -7,6 +7,7 @@ export const useNotesList = ({ onSelect }: { onSelect?: () => void }) => {
   const [selectedNoteIndex, setSelectedNoteIndex] = useAtom(selectedNoteIndexAtom)
 
   const handleNoteSelect = (index: number) => async () => {
+    console.log('handleNoteSelect')
     setSelectedNoteIndex(index)
 
     if (onSelect) {
