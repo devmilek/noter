@@ -1,8 +1,10 @@
 import { appDirectoryName, fileEncoding } from '@shared/constans'
 import { NoteInfo } from '@shared/models'
-import { GetNotes, ReadNote, WriteNote } from '@shared/types'
+import { CreateNote, GetNotes, ReadNote, WriteNote } from '@shared/types'
+import { dialog } from 'electron'
 import { ensureDir, readFile, readdir, stat, writeFile } from 'fs-extra'
 import { homedir } from 'os'
+import path from 'path'
 
 export const getRootDir = () => {
   return `${homedir()}/${appDirectoryName}`
@@ -40,4 +42,45 @@ export const writeNote: WriteNote = async (fileName, content) => {
 
   console.log('writeNote', fileName)
   return writeFile(`${rootDir}/${fileName}.md`, content, { encoding: fileEncoding })
+}
+
+export const createNote: CreateNote = async () => {
+  const rootDir = getRootDir()
+  await ensureDir(rootDir)
+
+  const { filePath, canceled } = await dialog.showSaveDialog({
+    title: 'New note',
+    defaultPath: `${rootDir}/Untitled.md`,
+    buttonLabel: 'Create',
+    properties: ['showOverwriteConfirmation'],
+    showsTagField: false,
+    filters: [
+      {
+        name: 'Markdown',
+        extensions: ['md']
+      }
+    ]
+  })
+
+  if (canceled || !filePath) {
+    console.log('Note creation canceled')
+    return false
+  }
+
+  const { name: filename, dir: parentDir } = path.parse(filePath)
+
+  if (parentDir !== rootDir) {
+    await dialog.showMessageBox({
+      type: 'error',
+      title: 'Creation failed',
+      message: 'Cannot create note outside of the app directory.'
+    })
+
+    return false
+  }
+
+  console.info('Creating note', filename)
+  await writeFile(filePath, '')
+
+  return filename
 }
