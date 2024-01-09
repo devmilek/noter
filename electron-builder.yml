@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: notemark
+appId: com.noter.app
+productName: Noter
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: notemark
+  executableName: noter
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
